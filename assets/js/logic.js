@@ -13,8 +13,8 @@ var initialsEl = document.getElementById("initials");
 var feedbackEl = document.getElementById("feedback");
 
 // sound effects
-//
-//
+var sfxRight = new Audio("assets/sfx/correct.wav");
+var sfxWrong = new Audio("assets/sfx/incorrect.wav");
 
 function startQuiz() {
   // hide start screen
@@ -45,7 +45,7 @@ function getQuestion() {
   choicesEl.innerHTML = "";
 
   // loop over choices
-  currentQuestion.choices.forEach(function(choice, i ) {
+  currentQuestion.choices.forEach(function(choice, i) {
     // create new button for each choice
     var choiceNode = document.createElement("button");
     choiceNode.setAttribute("class", "choice");
@@ -62,8 +62,8 @@ function getQuestion() {
 }
 
 function questionClick() {
-  // check if user quessed wrong
-  if (this.value !== question[currentQuestionIndex].answer) {
+  // check if user guessed wrong
+  if (this.value !== questions[currentQuestionIndex].answer) {
     // penalize time
     time -= 15;
 
@@ -75,12 +75,12 @@ function questionClick() {
     timerEl.textContent = time;
 
     // play "wrong" sound effect
-    //
+    sfxWrong.play();
 
     feedbackEl.textContent = "Wrong!";
   } else {
     // play "right" sound effect
-    //
+    sfxRight.play();
 
     feedbackEl.textContent = "Correct!";
   }
@@ -94,7 +94,7 @@ function questionClick() {
   // move to next question
   currentQuestionIndex++;
 
-  // check if we've run out of question
+  // check if we've run out of questions
   if(currentQuestionIndex === questions.length) {
     quizEnd();
   } else {
@@ -111,8 +111,8 @@ function quizEnd() {
   endScreenEl.removeAttribute("class");
 
   // show final score
-  var finanlScoreEl = document.getElementById("final-score");
-  finanlScoreEl.textContent = time;
+  var finalScoreEl = document.getElementById("final-score");
+  finalScoreEl.textContent = time;
 
   // hide questions section
   questionEl.setAttribute("class", "hide");
@@ -165,6 +165,6 @@ function checkForEnter(event) {
 submitBtn.onclick = saveHighscore;
 
 // usert clicks button to start quiz
-startBtn.onclick = startQuiz();
+startBtn.onclick = startQuiz;
 
 initialsEl.onkeyup = checkForEnter;
